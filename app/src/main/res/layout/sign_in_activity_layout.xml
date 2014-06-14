@@ -12,11 +12,14 @@
     android:orientation="vertical"
     tools:context=".LoginActivity">
     <com.wrapp.floatlabelededittext.FloatLabeledEditText
+        android:id="@+id/edtTextUsername"
         android:layout_marginTop="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        float:fletFloatingHint="Username"/>
+        float:fletFloatingHint="Email"
+        float:fletInputType="textEmailAddress"/>
     <com.wrapp.floatlabelededittext.FloatLabeledEditText
+        android:id="@+id/edtTextPassword"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

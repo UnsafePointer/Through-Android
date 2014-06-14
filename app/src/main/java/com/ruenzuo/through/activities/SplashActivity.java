@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.parse.ParseUser;
 import com.ruenzuo.through.R;
 
 /**
@@ -20,11 +21,14 @@ public class SplashActivity extends Activity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent openMainActivity =  new Intent(SplashActivity.this, SignInActivity.class);
-                startActivity(openMainActivity);
+                if (ParseUser.getCurrentUser() != null) {
+                    startActivity(new Intent(SplashActivity.this, FeedListActivity.class));
+                } else {
+                    startActivity(new Intent(SplashActivity.this, SignInActivity.class));
+                }
                 finish();
             }
-        }, 3000);
+        }, 1500);
     }
 
 }

@@ -9,11 +9,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.ruenzuo.through.R;
+import com.ruenzuo.through.models.Media;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by renzocrisostomo on 14/06/14.
  */
-public class MediaAdapter extends ArrayAdapter<String> {
+public class MediaAdapter extends ArrayAdapter<Media> {
 
     public MediaAdapter(Context context, int resource) {
         super(context, resource);
@@ -33,9 +35,8 @@ public class MediaAdapter extends ArrayAdapter<String> {
             convertView.setTag(holder);
         }
         MediaViewHolder holder = (MediaViewHolder)convertView.getTag();
-        String picture = getItem(position);
-        int resID = getContext().getResources().getIdentifier(picture , "drawable", getContext().getPackageName());
-        holder.imgViewPicture.setImageDrawable(getContext().getResources().getDrawable(resID));
+        Media media = getItem(position);
+        Picasso.with(getContext()).load(media.getURL()).fit().centerCrop().into(holder.imgViewPicture);
         return convertView;
     }
 

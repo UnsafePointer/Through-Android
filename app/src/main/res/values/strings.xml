@@ -2,9 +2,8 @@
 <resources>
     <string name="app_name">Through</string>
     <string name="menu_title_settings">Settings</string>
-    <string name="sign_in_activity_label">Login</string>
     <string name="feed_activity_label">Feed</string>
-    <string name="menu_title_sign_up">Sign Up</string>
+    <string name="menu_title_sign_up">Sign up</string>
     <string-array name="pictures">
         <item>picture1</item>
         <item>picture2</item>

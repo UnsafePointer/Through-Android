@@ -6,7 +6,6 @@
     <ImageView
         android:id="@+id/imgViewPicture"
         android:layout_width="match_parent"
-        android:src="@drawable/picture3"
         android:scaleType="center"
         android:layout_height="200dp" />
 </LinearLayout>

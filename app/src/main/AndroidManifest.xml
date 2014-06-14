@@ -23,7 +23,8 @@
             android:name=".activities.SignInActivity"
             android:theme="@style/THRFormTheme"
             android:screenOrientation="portrait"
-            android:label="@string/sign_in_activity_label"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateVisible"
             android:logo="@drawable/ic_action_back"/>
         <activity
             android:name=".activities.FeedListActivity"
