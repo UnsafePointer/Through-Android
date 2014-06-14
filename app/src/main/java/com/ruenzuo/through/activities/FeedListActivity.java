@@ -56,4 +56,5 @@ public class FeedListActivity extends ListActivity {
         getMenuInflater().inflate(R.menu.feeds_menu, menu);
         return true;
     }
+
 }

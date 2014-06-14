@@ -1,11 +1,25 @@
 <resources>
-    <style name="THRTheme" parent="android:Theme.Holo">
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:actionBarStyle">@style/THRActionBar</item>
+    <style name="THRSplashTheme" parent="android:Theme.Holo.NoActionBar">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
-    <style name="THRActionBar" parent="@android:style/Widget.Holo.ActionBar">
+    <style name="THRFormTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/THRActionBar</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:editTextBackground">@drawable/edit_text_selector</item>
+        <item name="android:actionMenuTextColor">#C644FC</item>
+    </style>
+    <style name="THRTheme" parent="android:Theme.Holo.Light">
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:actionBarStyle">@style/THRTranslucentActionBar</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    <style name="THRTranslucentActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
         <item name="android:background">@drawable/action_bar_background</item>
+        <item name="android:titleTextStyle">@style/THRActionBarTitleText</item>
+    </style>
+    <style name="THRActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:background">@drawable/action_bar_background_forms</item>
         <item name="android:titleTextStyle">@style/THRActionBarTitleText</item>
     </style>
     <style name="THRActionBarTitleText" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
