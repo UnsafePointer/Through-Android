@@ -1,8 +1,14 @@
 <resources>
-
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="THRTheme" parent="android:Theme.Holo">
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:actionBarStyle">@style/THRActionBar</item>
+        <item name="android:windowBackground">@android:color/white</item>
     </style>
-
+    <style name="THRActionBar" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:background">@drawable/action_bar_background</item>
+        <item name="android:titleTextStyle">@style/THRActionBarTitleText</item>
+    </style>
+    <style name="THRActionBarTitleText" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">#5856D6</item>
+    </style>
 </resources>
