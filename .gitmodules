@@ -1,0 +1,3 @@
+[submodule "External/facebook-android-sdk"]
+	path = External/facebook-android-sdk
+	url = git@github.com:Ruenzuo/facebook-android-sdk.git
