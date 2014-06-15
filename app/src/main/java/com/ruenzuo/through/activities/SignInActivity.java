@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -32,6 +33,15 @@ public class SignInActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.sign_in_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        if (item.getItemId() == R.id.action_sign_up) {
+            startActivity(new Intent(this, SignUpActivity.class));
+            return true;
+        }
+        return super.onMenuItemSelected(featureId, item);
     }
 
     private boolean validateSignInFields() {

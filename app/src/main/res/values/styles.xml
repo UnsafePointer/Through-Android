@@ -1,12 +1,13 @@
 <resources>
-    <style name="THRSplashTheme" parent="android:Theme.Holo.NoActionBar">
+    <style name="THRSplashTheme" parent="android:Theme.Holo.Light.NoActionBar">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
-    <style name="THRFormTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+    <style name="THRFormTheme" parent="android:Theme.Holo.Light">
         <item name="android:actionBarStyle">@style/THRActionBar</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:editTextBackground">@drawable/edit_text_selector</item>
         <item name="android:actionMenuTextColor">#C644FC</item>
+        <item name="android:selectableItemBackground">@drawable/action_button_background</item>
     </style>
     <style name="THRTheme" parent="android:Theme.Holo.Light">
         <item name="android:windowActionBarOverlay">true</item>
