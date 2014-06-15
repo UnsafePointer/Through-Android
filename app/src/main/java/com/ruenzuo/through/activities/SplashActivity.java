@@ -26,7 +26,7 @@ public class SplashActivity extends Activity {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setCancelable(false);
             progressDialog.show();
-            progressDialog.setMessage("Refreshing session");
+            progressDialog.setMessage("Validation session");
             ParseUser.getCurrentUser().refreshInBackground(new RefreshCallback() {
                 @Override
                 public void done(ParseObject parseObject, ParseException e) {
@@ -38,7 +38,7 @@ public class SplashActivity extends Activity {
                     } else {
                         if (!ParseUser.getCurrentUser().getBoolean("isFacebookServiceConnected") &&
                             !ParseUser.getCurrentUser().getBoolean("isFacebookServiceConnected")) {
-                            startActivity(new Intent(SplashActivity.this, ConnectActivity.class));
+                            startActivity(new Intent(SplashActivity.this, ConnectListActivity.class));
                         } else {
                             startActivity(new Intent(SplashActivity.this, FeedListActivity.class));
                         }

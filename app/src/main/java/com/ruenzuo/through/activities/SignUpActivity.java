@@ -94,6 +94,7 @@ public class SignUpActivity extends BaseActivity {
             ParseUser user = new ParseUser();
             user.setUsername(edtTextUsername.getText().toString());
             user.setPassword(edtTextPassword.getText().toString());
+            user.put("email", edtTextUsername.getText().toString());
             user.put("isFacebookServiceConnected", false);
             user.put("isTwitterServiceConnected", false);
             final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -108,7 +109,7 @@ public class SignUpActivity extends BaseActivity {
                     if (e != null) {
                         Toast.makeText(SignUpActivity.this, "Unexpected error. Please try again later.", Toast.LENGTH_LONG).show();
                     } else {
-                        Intent openMainActivity =  new Intent(SignUpActivity.this, ConnectActivity.class);
+                        Intent openMainActivity =  new Intent(SignUpActivity.this, ConnectListActivity.class);
                         startActivity(openMainActivity);
                         finish();
                     }

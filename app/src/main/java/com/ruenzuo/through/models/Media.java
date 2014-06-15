@@ -3,6 +3,7 @@ package com.ruenzuo.through.models;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.ruenzuo.through.models.enums.ServiceType;
 
 import java.util.Date;
 
@@ -44,11 +45,11 @@ public class Media extends ParseObject {
         put("url", URL);
     }
 
-    public MediaType getType() {
-        return MediaType.values()[getInt("type")];
+    public ServiceType getType() {
+        return ServiceType.values()[getInt("type")];
     }
 
-    public void setType(MediaType type) {
+    public void setType(ServiceType type) {
         put("type", type.ordinal());
     }
 

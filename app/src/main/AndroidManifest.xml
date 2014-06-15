@@ -37,7 +37,7 @@
             android:screenOrientation="portrait"
             android:label="@string/sign_up_activity_label"
             android:logo="@drawable/ic_action_back"/>
-        <activity android:name=".activities.ConnectActivity"
+        <activity android:name=".activities.ConnectListActivity"
             android:theme="@style/THRFormTheme"
             android:screenOrientation="portrait"
             android:label="@string/connect_activity_label"
