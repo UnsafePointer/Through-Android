@@ -51,7 +51,9 @@ public class ConnectionAdapter extends ArrayAdapter<Connection> {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     Connection connection = (Connection) buttonView.getTag();
                     Switch swtServiceConnected = (Switch) buttonView;
-                    listener.onConnectSwitchChanged(swtServiceConnected, connection);
+                    if (connection.isConnected() != isChecked) {
+                        listener.onConnectSwitchChanged(swtServiceConnected, connection);
+                    }
                 }
 
             });
@@ -64,6 +66,7 @@ public class ConnectionAdapter extends ArrayAdapter<Connection> {
         Connection connection = getItem(position);
         holder.txtViewConnectionService.setText(connection.getType().toString());
         holder.swtServiceConnected.setTag(connection);
+        holder.swtServiceConnected.setChecked(connection.isConnected());
         return convertView;
     }
 

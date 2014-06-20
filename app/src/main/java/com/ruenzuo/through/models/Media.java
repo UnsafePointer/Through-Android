@@ -1,5 +1,6 @@
 package com.ruenzuo.through.models;
 
+
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;

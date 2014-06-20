@@ -21,7 +21,7 @@
         </activity>
         <activity
             android:name=".activities.SignInActivity"
-            android:theme="@style/THRFormTheme"
+            android:theme="@style/THRTheme"
             android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateVisible"
@@ -33,14 +33,21 @@
             android:label="@string/feed_activity_label"
             android:logo="@drawable/ic_action_back"/>
         <activity android:name=".activities.SignUpActivity"
-            android:theme="@style/THRFormTheme"
+            android:theme="@style/THRTheme"
             android:screenOrientation="portrait"
             android:label="@string/sign_up_activity_label"
             android:logo="@drawable/ic_action_back"/>
         <activity android:name=".activities.ConnectListActivity"
-            android:theme="@style/THRFormTheme"
+            android:theme="@style/THRTheme"
             android:screenOrientation="portrait"
             android:label="@string/connect_activity_label"
-            android:logo="@drawable/ic_action_back"/>
+            android:logo="@drawable/ic_action_back">
+        </activity>
+        <activity android:name=".activities.TwitterOAuthActivity"
+            android:theme="@style/THRTheme"
+            android:screenOrientation="portrait"
+            android:label="@string/twitter_oauth_activity_label"
+            android:logo="@drawable/ic_action_back">
+        </activity>
     </application>
 </manifest>

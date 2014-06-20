@@ -37,7 +37,7 @@ public class SplashActivity extends Activity {
                         startActivity(new Intent(SplashActivity.this, SignInActivity.class));
                     } else {
                         Intent intent;
-                        if (!ParseUser.getCurrentUser().getBoolean("isFacebookServiceConnected") &&
+                        if (!ParseUser.getCurrentUser().getBoolean("isTwitterServiceConnected") &&
                             !ParseUser.getCurrentUser().getBoolean("isFacebookServiceConnected")) {
                             intent = new Intent(SplashActivity.this, ConnectListActivity.class);
                             intent.putExtra("ShouldAllowDisconnect", false);
