@@ -142,6 +142,33 @@ public class ConnectListActivity extends BaseListActivity implements OnConnectSw
         });
     }
 
+    private void disconnectTwitter() {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        progressDialog.setMessage("Disconnecting");
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("username", ParseUser.getCurrentUser().getUsername());
+        ParseCloud.callFunctionInBackground("disconnectTwitterForUser", params, new FunctionCallback<Object>() {
+            @Override
+            public void done(Object o, ParseException e) {
+                progressDialog.dismiss();
+                if (e != null) {
+                    Toast.makeText(ConnectListActivity.this, "There was an error with this request, please try again later.", Toast.LENGTH_LONG).show();
+                } else {
+                    ParseUser user = ParseUser.getCurrentUser();
+                    user.put("isTwitterServiceConnected", false);
+                    user.saveInBackground();
+                    ConnectionAdapter adapter = (ConnectionAdapter) getListAdapter();
+                    adapter.clear();
+                    adapter.addAll(generateConnectionData());
+                    adapter.notifyDataSetChanged();
+                    //TODO: Broadcast results.
+                }
+            }
+        });
+    }
+
     @Override
     public void onConnectSwitchChanged(Switch swtService, Connection connection) {
         if (!swtService.isChecked() && !shouldAllowDisconnect) {
@@ -149,7 +176,11 @@ public class ConnectListActivity extends BaseListActivity implements OnConnectSw
             Toast.makeText(this, "You can disconnect service later on settings.", Toast.LENGTH_SHORT).show();
         }
         else if (connection.getType() == ServiceType.SERVICE_TYPE_TWITTER) {
-            startActivityForResult(new Intent(this, TwitterOAuthActivity.class), TWITTER_OAUTH_REQUEST_CODE);
+            if (swtService.isChecked()) {
+                startActivityForResult(new Intent(this, TwitterOAuthActivity.class), TWITTER_OAUTH_REQUEST_CODE);
+            } else {
+                disconnectTwitter();
+            }
         }
     }
 
