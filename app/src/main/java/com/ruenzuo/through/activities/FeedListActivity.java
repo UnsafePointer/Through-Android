@@ -1,5 +1,6 @@
 package com.ruenzuo.through.activities;
 
+import android.app.DialogFragment;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -23,6 +24,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.ruenzuo.through.R;
 import com.ruenzuo.through.adapters.MediaAdapter;
+import com.ruenzuo.through.fragments.AboutDialogFragment;
 import com.ruenzuo.through.helpers.NavigationHelper;
 import com.ruenzuo.through.models.Media;
 
@@ -231,6 +233,8 @@ public class FeedListActivity extends ListActivity implements SwipeRefreshLayout
             finish();
             return true;
         } else if (item.getItemId() == R.id.action_about) {
+            DialogFragment dialog = new AboutDialogFragment();
+            dialog.show(getFragmentManager(), "InfoDialogFragment");
             return true;
         } else if (item.getItemId() == R.id.action_tos) {
             NavigationHelper.openInBroswer(this, "https://dl.dropboxusercontent.com/u/12352209/Through/ThroughToS.html");

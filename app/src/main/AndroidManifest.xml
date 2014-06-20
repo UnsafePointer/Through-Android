@@ -57,5 +57,16 @@
             android:logo="@drawable/ic_action_back">
         </activity>
         <activity android:name="net.hockeyapp.android.UpdateActivity" />
+        <activity android:name=".activities.LicensesActivity"
+            android:theme="@style/THRMainTheme"
+            android:label="@string/licenses_activity_label"
+            android:screenOrientation="portrait"
+            android:logo="@drawable/ic_action_back">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.VIEW" />
+                <data android:scheme="com.ruenzuo.pokeffective" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>
