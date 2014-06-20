@@ -9,6 +9,11 @@
         <item name="android:editTextBackground">@drawable/edit_text_selector</item>
         <item name="android:actionMenuTextColor">@color/light_through_color</item>
         <item name="android:selectableItemBackground">@drawable/action_button_background</item>
+        <item name="android:textColorHighlight">#995856d6</item>
+        <item name="android:textSelectHandleLeft">@drawable/through_text_select_handle_left</item>
+        <item name="android:textSelectHandleRight">@drawable/through_text_select_handle_right</item>
+        <item name="android:textSelectHandle">@drawable/through_text_select_handle_middle</item>
+        <item name="android:actionModeBackground">@drawable/action_bar_background_forms</item>
     </style>
     <style name="THRActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
         <item name="android:background">@drawable/action_bar_background_forms</item>

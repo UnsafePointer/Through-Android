@@ -7,17 +7,19 @@
         android:id="@+id/imgViewPicture"
         android:layout_width="match_parent"
         android:scaleType="center"
-        android:layout_height="320dp" />
+        android:layout_height="330dp" />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="#E6FFFFFF"
         android:layout_alignParentBottom="true">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:textColor="#2B2B2B"
             android:textSize="14sp"
             android:textStyle="bold"
