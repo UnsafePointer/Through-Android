@@ -2,7 +2,10 @@ package com.ruenzuo.through.activities;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
@@ -39,9 +42,47 @@ public class FeedListActivity extends ListActivity implements SwipeRefreshLayout
     private SwipeRefreshLayout swipeLayout;
     private boolean shouldRefreshOlder = true;
 
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase(ConnectListActivity.ACTION_DISCONNECT_SERVICE)) {
+                MediaAdapter adapter = (MediaAdapter) getListAdapter();
+                adapter.clear();
+                ParseQuery<Media> query = Media.getQuery();
+                query.whereEqualTo("user", ParseUser.getCurrentUser());
+                query.orderByDescending("mediaDate");
+                query.setLimit(50);
+                query.findInBackground(new FindCallback<Media>() {
+
+                    @Override
+                    public void done(List<Media> feed, ParseException e) {
+                        if (e != null) {
+                            Toast.makeText(FeedListActivity.this, "There was an error with this request, please try again later.", Toast.LENGTH_LONG).show();
+                        } else {
+                            MediaAdapter adapter = (MediaAdapter) getListAdapter();
+                            adapter.addAll(feed);
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+
+                });
+            } else if (intent.getAction().equalsIgnoreCase(ConnectListActivity.ACTION_CONNECT_SERVICE)) {
+                MediaAdapter adapter = (MediaAdapter) getListAdapter();
+                adapter.clear();
+                generateFeed();
+            }
+        }
+
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ConnectListActivity.ACTION_CONNECT_SERVICE);
+        intentFilter.addAction(ConnectListActivity.ACTION_DISCONNECT_SERVICE);
+        registerReceiver(receiver, intentFilter);
         setContentView(R.layout.feed_list_activity_layout);
         checkForCrashes();
         if (!getResources().getBoolean(R.bool.google_play_build)) {
@@ -100,6 +141,12 @@ public class FeedListActivity extends ListActivity implements SwipeRefreshLayout
             }
 
         });
+    }
+
+    @Override
+    protected void onDestroy () {
+        super.onDestroy();
+        unregisterReceiver(receiver);
     }
 
     @Override

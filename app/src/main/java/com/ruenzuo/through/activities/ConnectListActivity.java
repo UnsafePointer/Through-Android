@@ -47,8 +47,10 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 public class ConnectListActivity extends BaseListActivity implements OnConnectSwitchChangedListener {
 
-    static final int TWITTER_OAUTH_REQUEST_CODE = 1;
+    public static final int TWITTER_OAUTH_REQUEST_CODE = 1;
     private boolean shouldAllowDisconnect;
+    public static final String ACTION_DISCONNECT_SERVICE = "ACTION_DISCONNECT_SERVICE";
+    public static final String ACTION_CONNECT_SERVICE = "ACTION_CONNECT_SERVICE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +138,9 @@ public class ConnectListActivity extends BaseListActivity implements OnConnectSw
                     adapter.addAll(generateConnectionData());
                     adapter.notifyDataSetChanged();
                     invalidateOptionsMenu();
+                    Intent broadcastIntent = new Intent();
+                    broadcastIntent.setAction(ConnectListActivity.ACTION_CONNECT_SERVICE);
+                    sendBroadcast(broadcastIntent);
                 }
             }
 
@@ -163,7 +168,9 @@ public class ConnectListActivity extends BaseListActivity implements OnConnectSw
                     adapter.clear();
                     adapter.addAll(generateConnectionData());
                     adapter.notifyDataSetChanged();
-                    //TODO: Broadcast results.
+                    Intent broadcastIntent = new Intent();
+                    broadcastIntent.setAction(ConnectListActivity.ACTION_DISCONNECT_SERVICE);
+                    sendBroadcast(broadcastIntent);
                 }
             }
         });
