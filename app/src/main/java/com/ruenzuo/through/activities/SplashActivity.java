@@ -36,12 +36,16 @@ public class SplashActivity extends Activity {
                         Toast.makeText(SplashActivity.this, "Your account has been deleted, please contact support.", Toast.LENGTH_LONG).show();
                         startActivity(new Intent(SplashActivity.this, SignInActivity.class));
                     } else {
+                        Intent intent;
                         if (!ParseUser.getCurrentUser().getBoolean("isFacebookServiceConnected") &&
                             !ParseUser.getCurrentUser().getBoolean("isFacebookServiceConnected")) {
-                            startActivity(new Intent(SplashActivity.this, ConnectListActivity.class));
+                            intent = new Intent(SplashActivity.this, ConnectListActivity.class);
+                            intent.putExtra("ShouldAllowDisconnect", false);
+
                         } else {
-                            startActivity(new Intent(SplashActivity.this, FeedListActivity.class));
+                            intent = new Intent(SplashActivity.this, FeedListActivity.class);
                         }
+                        startActivity(intent);
                     }
                     finish();
                 }

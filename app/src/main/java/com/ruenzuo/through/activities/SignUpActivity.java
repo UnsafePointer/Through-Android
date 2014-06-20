@@ -109,8 +109,9 @@ public class SignUpActivity extends BaseActivity {
                     if (e != null) {
                         Toast.makeText(SignUpActivity.this, "Unexpected error. Please try again later.", Toast.LENGTH_LONG).show();
                     } else {
-                        Intent openMainActivity =  new Intent(SignUpActivity.this, ConnectListActivity.class);
-                        startActivity(openMainActivity);
+                        Intent intent =  new Intent(SignUpActivity.this, ConnectListActivity.class);
+                        intent.putExtra("ShouldAllowDisconnect", false);
+                        startActivity(intent);
                         finish();
                     }
                 }

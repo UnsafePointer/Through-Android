@@ -77,8 +77,15 @@ public class SignInActivity extends Activity {
                             Toast.makeText(SignInActivity.this, "Unexpected error. Please try again later.", Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        Intent openMainActivity =  new Intent(SignInActivity.this, FeedListActivity.class);
-                        startActivity(openMainActivity);
+                        Intent intent;
+                        if (parseUser.getBoolean("isFacebookServiceConnected") ||
+                                parseUser.getBoolean("isTwitterServiceConnected")) {
+                            intent = new Intent(SignInActivity.this, FeedListActivity.class);
+                        } else {
+                            intent = new Intent(SignInActivity.this, ConnectListActivity.class);
+                            intent.putExtra("ShouldAllowDisconnect", false);
+                        }
+                        startActivity(intent);
                         finish();
                     }
                 }
