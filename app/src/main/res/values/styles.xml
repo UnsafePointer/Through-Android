@@ -2,7 +2,7 @@
     <style name="THRSplashTheme" parent="android:Theme.Holo.Light.NoActionBar">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
-    <style name="THRTheme" parent="android:Theme.Holo.Light">
+    <style name="THRMainTheme" parent="android:Theme.Holo.Light">
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:actionBarStyle">@style/THRActionBar</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -16,5 +16,20 @@
     </style>
     <style name="THRActionBarTitleText" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@color/dark_through_color</item>
+    </style>
+    <style name="THRMediaTheme" parent="android:Theme.Holo.Light">
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:actionBarStyle">@style/THRTranslucentActionBar</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:progressBarStyleHorizontal">@style/THRProgressBarApp</item>
+    </style>
+    <style name="THRTranslucentActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:background">@drawable/action_bar_background</item>
+        <item name="android:titleTextStyle">@style/THRActionBarTitleText</item>
+    </style>
+    <style name="THRProgressBarApp" parent="android:Widget.Holo.Light.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_holo_light</item>
+        <item name="android:indeterminateDrawable">@drawable/progress_indeterminate_horizontal_holo_light</item>
     </style>
 </resources>

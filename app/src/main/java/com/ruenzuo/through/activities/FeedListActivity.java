@@ -2,10 +2,13 @@ package com.ruenzuo.through.activities;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
+import android.view.View;
 import android.widget.AbsListView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -88,6 +91,16 @@ public class FeedListActivity extends ListActivity implements SwipeRefreshLayout
             }
 
         });
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        MediaAdapter adapter = (MediaAdapter) getListAdapter();
+        Media media = adapter.getItem(position);
+        Intent intent = new Intent(this, MediaActivity.class);
+        intent.putExtra("MediaURL", media.getURL());
+        startActivity(intent);
     }
 
     private void generateFeed() {

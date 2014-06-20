@@ -8,7 +8,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/THRTheme" >
+        android:theme="@style/THRMainTheme" >
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/THRSplashTheme"
@@ -21,32 +21,38 @@
         </activity>
         <activity
             android:name=".activities.SignInActivity"
-            android:theme="@style/THRTheme"
+            android:theme="@style/THRMainTheme"
             android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateVisible"
             android:logo="@drawable/ic_action_back"/>
         <activity
             android:name=".activities.FeedListActivity"
-            android:theme="@style/THRTheme"
+            android:theme="@style/THRMainTheme"
             android:screenOrientation="portrait"
             android:label="@string/feed_activity_label"
             android:logo="@drawable/ic_action_back"/>
         <activity android:name=".activities.SignUpActivity"
-            android:theme="@style/THRTheme"
+            android:theme="@style/THRMainTheme"
             android:screenOrientation="portrait"
             android:label="@string/sign_up_activity_label"
             android:logo="@drawable/ic_action_back"/>
         <activity android:name=".activities.ConnectListActivity"
-            android:theme="@style/THRTheme"
+            android:theme="@style/THRMainTheme"
             android:screenOrientation="portrait"
             android:label="@string/connect_activity_label"
             android:logo="@drawable/ic_action_back">
         </activity>
         <activity android:name=".activities.TwitterOAuthActivity"
-            android:theme="@style/THRTheme"
+            android:theme="@style/THRMainTheme"
             android:screenOrientation="portrait"
             android:label="@string/twitter_oauth_activity_label"
+            android:logo="@drawable/ic_action_back">
+        </activity>
+        <activity android:name=".activities.MediaActivity"
+            android:theme="@style/THRMediaTheme"
+            android:screenOrientation="portrait"
+            android:label="@string/media_activity_label"
             android:logo="@drawable/ic_action_back">
         </activity>
     </application>

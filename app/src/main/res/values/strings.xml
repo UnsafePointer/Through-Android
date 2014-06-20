@@ -9,4 +9,5 @@
     <string name="connect_activity_label">Connect</string>
     <string name="twitter_oauth_activity_label">Twitter</string>
     <string name="menu_title_done">Done</string>
+    <string name="media_activity_label">Through</string>
 </resources>
