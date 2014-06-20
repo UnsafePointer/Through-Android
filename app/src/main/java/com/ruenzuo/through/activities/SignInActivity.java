@@ -15,6 +15,9 @@ import com.parse.ParseUser;
 import com.ruenzuo.through.R;
 import com.wrapp.floatlabelededittext.FloatLabeledEditText;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
+
 
 public class SignInActivity extends Activity {
 
@@ -25,6 +28,10 @@ public class SignInActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_in_activity_layout);
+        checkForCrashes();
+        if (!getResources().getBoolean(R.bool.google_play_build)) {
+            checkForUpdates();
+        }
         edtTextUsername = (FloatLabeledEditText) findViewById(R.id.edtTextUsername);
         edtTextPassword = (FloatLabeledEditText) findViewById(R.id.edtTextPassword);
     }
@@ -92,6 +99,14 @@ public class SignInActivity extends Activity {
 
             });
         }
+    }
+
+    private void checkForCrashes() {
+        CrashManager.register(this, "7b0393573930d8bcbabcaa7d6e7b005b");
+    }
+
+    private void checkForUpdates() {
+        UpdateManager.register(this, "7b0393573930d8bcbabcaa7d6e7b005b");
     }
 
 }

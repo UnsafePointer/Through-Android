@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
@@ -19,7 +20,11 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.ruenzuo.through.R;
 import com.ruenzuo.through.adapters.MediaAdapter;
+import com.ruenzuo.through.helpers.NavigationHelper;
 import com.ruenzuo.through.models.Media;
+
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +43,10 @@ public class FeedListActivity extends ListActivity implements SwipeRefreshLayout
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feed_list_activity_layout);
+        checkForCrashes();
+        if (!getResources().getBoolean(R.bool.google_play_build)) {
+            checkForUpdates();
+        }
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         swipeLayout.setOnRefreshListener(this);
         swipeLayout.setColorScheme(R.color.dark_through_color,
@@ -162,6 +171,31 @@ public class FeedListActivity extends ListActivity implements SwipeRefreshLayout
     }
 
     @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        if (item.getItemId() == R.id.action_services) {
+            Intent intent =  new Intent(this, ConnectListActivity.class);
+            intent.putExtra("ShouldAllowDisconnect", true);
+            startActivity(intent);
+            return true;
+        } else if (item.getItemId() == R.id.action_log_out) {
+            ParseUser.logOut();
+            Intent intent =  new Intent(this, SignInActivity.class);
+            startActivity(intent);
+            finish();
+            return true;
+        } else if (item.getItemId() == R.id.action_about) {
+            return true;
+        } else if (item.getItemId() == R.id.action_tos) {
+            NavigationHelper.openInBroswer(this, "https://dl.dropboxusercontent.com/u/12352209/Through/ThroughToS.html");
+            return true;
+        } else if (item.getItemId() == R.id.action_privacy) {
+            NavigationHelper.openInBroswer(this, "https://www.iubenda.com/privacy-policy/895941");
+            return true;
+        }
+        return super.onMenuItemSelected(featureId, item);
+    }
+
+    @Override
     public void onRefresh() {
         ParseQuery<Media> query = Media.getQuery();
         query.whereEqualTo("user", ParseUser.getCurrentUser());
@@ -213,6 +247,14 @@ public class FeedListActivity extends ListActivity implements SwipeRefreshLayout
             }
 
         });
+    }
+
+    private void checkForCrashes() {
+        CrashManager.register(this, "7b0393573930d8bcbabcaa7d6e7b005b");
+    }
+
+    private void checkForUpdates() {
+        UpdateManager.register(this, "7b0393573930d8bcbabcaa7d6e7b005b");
     }
 
 }

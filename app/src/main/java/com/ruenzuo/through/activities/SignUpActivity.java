@@ -15,6 +15,7 @@ import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 import com.ruenzuo.through.R;
 import com.ruenzuo.through.extensions.BaseActivity;
+import com.ruenzuo.through.helpers.NavigationHelper;
 import com.wrapp.floatlabelededittext.FloatLabeledEditText;
 
 /**
@@ -56,17 +57,11 @@ public class SignUpActivity extends BaseActivity {
     }
 
     public void privacyPolicy(View view) {
-        openInBroswer("https://www.iubenda.com/privacy-policy/895941");
+        NavigationHelper.openInBroswer(this, "https://www.iubenda.com/privacy-policy/895941");
     }
 
     public void termsOfUse(View view) {
-        openInBroswer("https://dl.dropboxusercontent.com/u/12352209/Through/ThroughToS.html");
-    }
-
-    private void openInBroswer(String URL) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(URL));
-        startActivity(intent);
+        NavigationHelper.openInBroswer(this, "https://dl.dropboxusercontent.com/u/12352209/Through/ThroughToS.html");
     }
 
     private boolean validateSignUpEmail() {

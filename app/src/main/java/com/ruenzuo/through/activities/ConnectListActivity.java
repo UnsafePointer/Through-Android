@@ -22,6 +22,7 @@ import com.parse.SaveCallback;
 import com.ruenzuo.through.R;
 import com.ruenzuo.through.adapters.ConnectionAdapter;
 import com.ruenzuo.through.definitions.OnConnectSwitchChangedListener;
+import com.ruenzuo.through.extensions.BaseListActivity;
 import com.ruenzuo.through.models.Connection;
 import com.ruenzuo.through.models.Media;
 import com.ruenzuo.through.models.enums.ServiceType;
@@ -44,7 +45,7 @@ import twitter4j.conf.ConfigurationBuilder;
 /**
  * Created by renzocrisostomo on 15/06/14.
  */
-public class ConnectListActivity extends ListActivity implements OnConnectSwitchChangedListener {
+public class ConnectListActivity extends BaseListActivity implements OnConnectSwitchChangedListener {
 
     static final int TWITTER_OAUTH_REQUEST_CODE = 1;
     private boolean shouldAllowDisconnect;
@@ -53,6 +54,9 @@ public class ConnectListActivity extends ListActivity implements OnConnectSwitch
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         shouldAllowDisconnect = getIntent().getExtras().getBoolean("ShouldAllowDisconnect");
+        if (shouldAllowDisconnect) {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         setContentView(R.layout.connect_list_activity_layout);
         ConnectionAdapter adapter = new ConnectionAdapter(this, R.layout.connection_row_layout);
         adapter.setListener(this);
@@ -65,17 +69,32 @@ public class ConnectListActivity extends ListActivity implements OnConnectSwitch
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser.getBoolean("isTwitterServiceConnected") ||
                 currentUser.getBoolean("isFacebookServiceConnected")) {
-            getMenuInflater().inflate(R.menu.connect_menu, menu);
+            if (!shouldAllowDisconnect) {
+                getMenuInflater().inflate(R.menu.connect_menu, menu);
+            }
         }
         return true;
     }
 
     @Override
+    public void onBackPressed() {
+        if (shouldAllowDisconnect) {
+            finishAnimated();
+        } else {
+            finish();
+        }
+    }
+
+    @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
-        if (item.getItemId() == R.id.action_done) {
+        if (item.getItemId() == android.R.id.home) {
+            finishAnimated();
+            return true;
+        } else if (item.getItemId() == R.id.action_done) {
             Intent intent = new Intent(ConnectListActivity.this, FeedListActivity.class);
             intent.putExtra("ShouldGenerateFeed", true);
             startActivity(intent);
+            finish();
             return true;
         }
         return super.onMenuItemSelected(featureId, item);

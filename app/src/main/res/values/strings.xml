@@ -10,4 +10,9 @@
     <string name="twitter_oauth_activity_label">Twitter</string>
     <string name="menu_title_done">Done</string>
     <string name="media_activity_label">Through</string>
+    <string name="menu_title_services">Services</string>
+    <string name="menu_title_log_out">Log out</string>
+    <string name="menu_title_about">About this app</string>
+    <string name="menu_title_tos">Terms of service</string>
+    <string name="menu_title_privacy">Privacy policy</string>
 </resources>
