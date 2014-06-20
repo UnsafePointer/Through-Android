@@ -13,6 +13,9 @@ import com.parse.ParseUser;
 import com.parse.RefreshCallback;
 import com.ruenzuo.through.R;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
+
 /**
  * Created by renzocrisostomo on 14/06/14.
  */
@@ -22,6 +25,10 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_activity_layout);
+        checkForCrashes();
+        if (!getResources().getBoolean(R.bool.google_play_build)) {
+            checkForUpdates();
+        }
         if (ParseUser.getCurrentUser() != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setCancelable(false);
@@ -60,6 +67,14 @@ public class SplashActivity extends Activity {
                 }
             }, 1500);
         }
+    }
+
+    private void checkForCrashes() {
+        CrashManager.register(this, "7b0393573930d8bcbabcaa7d6e7b005b");
+    }
+
+    private void checkForUpdates() {
+        UpdateManager.register(this, "7b0393573930d8bcbabcaa7d6e7b005b");
     }
 
 }
