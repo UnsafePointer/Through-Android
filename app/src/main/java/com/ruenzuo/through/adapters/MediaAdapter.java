@@ -46,11 +46,12 @@ public class MediaAdapter extends ArrayAdapter<Media> {
         PrettyTime prettyTime = new PrettyTime();
         String ago = prettyTime.format(media.getMediaDate());
         ago = ago.replace("from now", "ago");
-        if (!media.getText().trim().equalsIgnoreCase("")) {
+        if (media.getText() != null) {
             holder.txtViewMediaSource.setText(media.getUserName() + " on " + media.getType().toString() + " (" + ago + "):");
             holder.txtViewMediaText.setText(media.getText());
         } else {
             holder.txtViewMediaSource.setText(media.getUserName() + " on " + media.getType().toString() + " (" + ago + ")");
+            holder.txtViewMediaText.setText("");
         }
         Picasso.with(getContext()).load(media.getURL()).fit().centerCrop().into(holder.imgViewPicture);
         return convertView;

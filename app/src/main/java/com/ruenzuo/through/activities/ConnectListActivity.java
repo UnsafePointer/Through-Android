@@ -1,18 +1,15 @@
 package com.ruenzuo.through.activities;
 
-import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.facebook.Session;
+import com.facebook.SessionState;
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
@@ -24,23 +21,13 @@ import com.ruenzuo.through.adapters.ConnectionAdapter;
 import com.ruenzuo.through.definitions.OnConnectSwitchChangedListener;
 import com.ruenzuo.through.extensions.BaseListActivity;
 import com.ruenzuo.through.models.Connection;
-import com.ruenzuo.through.models.Media;
 import com.ruenzuo.through.models.enums.ServiceType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
-import bolts.Continuation;
-import bolts.Task;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
-import twitter4j.auth.RequestToken;
-import twitter4j.conf.Configuration;
-import twitter4j.conf.ConfigurationBuilder;
 
 /**
  * Created by renzocrisostomo on 15/06/14.
@@ -51,6 +38,7 @@ public class ConnectListActivity extends BaseListActivity implements OnConnectSw
     private boolean shouldAllowDisconnect;
     public static final String ACTION_DISCONNECT_SERVICE = "ACTION_DISCONNECT_SERVICE";
     public static final String ACTION_CONNECT_SERVICE = "ACTION_CONNECT_SERVICE";
+    private Session.StatusCallback statusCallback = new SessionStatusCallback();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +52,35 @@ public class ConnectListActivity extends BaseListActivity implements OnConnectSw
         adapter.setListener(this);
         setListAdapter(adapter);
         adapter.addAll(generateConnectionData());
+        Session session = Session.getActiveSession();
+        if (session == null) {
+            if (savedInstanceState != null) {
+                session = Session.restoreSession(this, null, statusCallback, savedInstanceState);
+            }
+            if (session == null) {
+                session = new Session(this);
+            }
+            Session.setActiveSession(session);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Session.getActiveSession().addCallback(statusCallback);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Session.getActiveSession().removeCallback(statusCallback);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Session session = Session.getActiveSession();
+        Session.saveSession(session, outState);
     }
 
     @Override
@@ -107,20 +124,22 @@ public class ConnectListActivity extends BaseListActivity implements OnConnectSw
         ParseUser currentUser = ParseUser.getCurrentUser();
         Connection connectionTwitter = new Connection.ConnectionBuilder(ServiceType.SERVICE_TYPE_TWITTER, currentUser.getBoolean("isTwitterServiceConnected")).build();
         connections.add(connectionTwitter);
+        Connection connectionFacebook = new Connection.ConnectionBuilder(ServiceType.SERVICE_TYPE_FACEBOOK, currentUser.getBoolean("isFacebookServiceConnected")).build();
+        connections.add(connectionFacebook);
         return connections;
     }
 
     private void connectTwitter(AccessToken accessToken) {
-        ParseObject gameScore = new ParseObject("TwitterOAuth");
-        gameScore.put("secret", accessToken.getTokenSecret());
-        gameScore.put("token", accessToken.getToken());
-        gameScore.put("id", accessToken.getUserId());
-        gameScore.put("user", ParseUser.getCurrentUser());
+        ParseObject twitterOAuth = new ParseObject("TwitterOAuth");
+        twitterOAuth.put("secret", accessToken.getTokenSecret());
+        twitterOAuth.put("token", accessToken.getToken());
+        twitterOAuth.put("id", accessToken.getUserId());
+        twitterOAuth.put("user", ParseUser.getCurrentUser());
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.show();
         progressDialog.setMessage("Connecting");
-        gameScore.saveInBackground(new SaveCallback() {
+        twitterOAuth.saveInBackground(new SaveCallback() {
 
             @Override
             public void done(ParseException e) {
@@ -176,17 +195,40 @@ public class ConnectListActivity extends BaseListActivity implements OnConnectSw
         });
     }
 
+    private void connectFacebook() {
+        Session session = Session.getActiveSession();
+        ArrayList<String> permissions = new ArrayList<String>();
+        permissions.add("user_photos");
+        if (!session.isOpened() && !session.isClosed()) {
+            session.openForRead(new Session.OpenRequest(this).setPermissions(permissions).setCallback(statusCallback));
+        } else {
+            Session.openActiveSession(this, true, permissions, statusCallback);
+        }
+    }
+
+    private void disconnectFacebook() {
+        Session session = Session.getActiveSession();
+        if (!session.isClosed()) {
+            session.closeAndClearTokenInformation();
+        }
+    }
+
     @Override
     public void onConnectSwitchChanged(Switch swtService, Connection connection) {
         if (!swtService.isChecked() && !shouldAllowDisconnect) {
             swtService.setChecked(true);
             Toast.makeText(this, "You can disconnect service later on settings.", Toast.LENGTH_SHORT).show();
-        }
-        else if (connection.getType() == ServiceType.SERVICE_TYPE_TWITTER) {
+        } else if (connection.getType() == ServiceType.SERVICE_TYPE_TWITTER) {
             if (swtService.isChecked()) {
                 startActivityForResult(new Intent(this, TwitterOAuthActivity.class), TWITTER_OAUTH_REQUEST_CODE);
             } else {
                 disconnectTwitter();
+            }
+        } else if (connection.getType() == ServiceType.SERVICE_TYPE_FACEBOOK) {
+            if (swtService.isChecked()) {
+                connectFacebook();
+            } else {
+                disconnectFacebook();
             }
         }
     }
@@ -203,6 +245,81 @@ public class ConnectListActivity extends BaseListActivity implements OnConnectSw
                 ConnectionAdapter adapter = (ConnectionAdapter) getListAdapter();
                 adapter.notifyDataSetChanged();
                 Toast.makeText(this, "Authorization cancelled.", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+        }
+    }
+
+    private class SessionStatusCallback implements Session.StatusCallback {
+        @Override
+        public void call(Session session, SessionState state, Exception exception) {
+            ParseUser user = ParseUser.getCurrentUser();
+            if (state == SessionState.OPENED && !user.getBoolean("isFacebookServiceConnected")) {
+                ParseObject facebookOAuth = new ParseObject("FacebookOAuth");
+                facebookOAuth.put("token", session.getAccessToken());
+                facebookOAuth.put("user", ParseUser.getCurrentUser());
+                final ProgressDialog progressDialog = new ProgressDialog(ConnectListActivity.this);
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+                progressDialog.setMessage("Connecting");
+                facebookOAuth.saveInBackground(new SaveCallback() {
+
+                    @Override
+                    public void done(ParseException e) {
+                        progressDialog.dismiss();
+                        if (e != null) {
+                            Toast.makeText(ConnectListActivity.this, "There was an error with this request, please try again later.", Toast.LENGTH_LONG).show();
+                            ConnectionAdapter adapter = (ConnectionAdapter) getListAdapter();
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            ParseUser user = ParseUser.getCurrentUser();
+                            user.put("isFacebookServiceConnected", true);
+                            user.saveInBackground();
+                            ConnectionAdapter adapter = (ConnectionAdapter) getListAdapter();
+                            adapter.clear();
+                            adapter.addAll(generateConnectionData());
+                            adapter.notifyDataSetChanged();
+                            invalidateOptionsMenu();
+                            Intent broadcastIntent = new Intent();
+                            broadcastIntent.setAction(ConnectListActivity.ACTION_CONNECT_SERVICE);
+                            sendBroadcast(broadcastIntent);
+                        }
+                    }
+
+                });
+            } else if (state == SessionState.CLOSED && user.getBoolean("isFacebookServiceConnected")) {
+                final ProgressDialog progressDialog = new ProgressDialog(ConnectListActivity.this);
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+                progressDialog.setMessage("Disconnecting");
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("username", ParseUser.getCurrentUser().getUsername());
+                ParseCloud.callFunctionInBackground("disconnectFacebookForUser", params, new FunctionCallback<Object>() {
+
+                    @Override
+                    public void done(Object o, ParseException e) {
+                        progressDialog.dismiss();
+                        if (e != null) {
+                            Toast.makeText(ConnectListActivity.this, "There was an error with this request, please try again later.", Toast.LENGTH_LONG).show();
+                        } else {
+                            ParseUser user = ParseUser.getCurrentUser();
+                            user.put("isFacebookServiceConnected", false);
+                            user.saveInBackground();
+                            ConnectionAdapter adapter = (ConnectionAdapter) getListAdapter();
+                            adapter.clear();
+                            adapter.addAll(generateConnectionData());
+                            adapter.notifyDataSetChanged();
+                            Intent broadcastIntent = new Intent();
+                            broadcastIntent.setAction(ConnectListActivity.ACTION_DISCONNECT_SERVICE);
+                            sendBroadcast(broadcastIntent);
+                        }
+                    }
+
+                });
+            } else if (state == SessionState.CLOSED_LOGIN_FAILED) {
+                ConnectionAdapter adapter = (ConnectionAdapter) getListAdapter();
+                adapter.notifyDataSetChanged();
             }
         }
     }
