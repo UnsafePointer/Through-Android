@@ -2,7 +2,10 @@ package com.ruenzuo.through.activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,9 +27,21 @@ public class SignInActivity extends Activity {
     private FloatLabeledEditText edtTextUsername;
     private FloatLabeledEditText edtTextPassword;
 
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            finish();
+        }
+
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(SignUpActivity.ACTION_SIGN_UP_COMPLETED);
+        registerReceiver(receiver, intentFilter);
         setContentView(R.layout.sign_in_activity_layout);
         checkForCrashes();
         if (!getResources().getBoolean(R.bool.google_play_build)) {
@@ -34,6 +49,12 @@ public class SignInActivity extends Activity {
         }
         edtTextUsername = (FloatLabeledEditText) findViewById(R.id.edtTextUsername);
         edtTextPassword = (FloatLabeledEditText) findViewById(R.id.edtTextPassword);
+    }
+
+    @Override
+    protected void onDestroy () {
+        super.onDestroy();
+        unregisterReceiver(receiver);
     }
 
     @Override

@@ -27,6 +27,7 @@ public class SignUpActivity extends BaseActivity {
     private FloatLabeledEditText edtTextPassword;
     private FloatLabeledEditText edtTextPasswordRepeat;
     private Switch swtAgreed;
+    public static final String ACTION_SIGN_UP_COMPLETED = "ACTION_SIGN_UP_COMPLETED";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +108,9 @@ public class SignUpActivity extends BaseActivity {
                         Intent intent =  new Intent(SignUpActivity.this, ConnectListActivity.class);
                         intent.putExtra("ShouldAllowDisconnect", false);
                         startActivity(intent);
+                        Intent broadcastIntent = new Intent();
+                        broadcastIntent.setAction(SignUpActivity.ACTION_SIGN_UP_COMPLETED);
+                        sendBroadcast(broadcastIntent);
                         finish();
                     }
                 }
