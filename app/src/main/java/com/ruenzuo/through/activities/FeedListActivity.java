@@ -232,6 +232,12 @@ public class FeedListActivity extends ListActivity implements SwipeRefreshLayout
             startActivity(intent);
             finish();
             return true;
+        } else if (item.getItemId() == R.id.action_share) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, "Check Through in Google Play! https://play.google.com/store/apps/details?id=com.rovio.angrybirds");
+            startActivity(Intent.createChooser(intent, "Share this app"));
+            return true;
         } else if (item.getItemId() == R.id.action_about) {
             DialogFragment dialog = new AboutDialogFragment();
             dialog.show(getFragmentManager(), "InfoDialogFragment");

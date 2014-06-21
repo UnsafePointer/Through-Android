@@ -9,6 +9,8 @@
                 android:title="@string/menu_title_services" />
             <item android:id="@+id/action_log_out"
                 android:title="@string/menu_title_log_out" />
+            <item android:id="@+id/action_share"
+                android:title="@string/menu_title_share" />
             <item android:id="@+id/action_about"
                 android:title="@string/menu_title_about" />
             <item android:id="@+id/action_tos"

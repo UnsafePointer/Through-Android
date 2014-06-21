@@ -16,4 +16,5 @@
     <string name="menu_title_tos">Terms of service</string>
     <string name="menu_title_privacy">Privacy policy</string>
     <string name="licenses_activity_label">Licenses</string>
+    <string name="menu_title_share">Share this app</string>
 </resources>
