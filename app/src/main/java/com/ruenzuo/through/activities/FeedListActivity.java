@@ -235,7 +235,7 @@ public class FeedListActivity extends ListActivity implements SwipeRefreshLayout
         } else if (item.getItemId() == R.id.action_share) {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_TEXT, "Check Through in Google Play! https://play.google.com/store/apps/details?id=com.rovio.angrybirds");
+            intent.putExtra(Intent.EXTRA_TEXT, "Check Through in Google Play! https://play.google.com/store/apps/details?id=com.ruenzuo.through");
             startActivity(Intent.createChooser(intent, "Share this app"));
             return true;
         } else if (item.getItemId() == R.id.action_about) {
