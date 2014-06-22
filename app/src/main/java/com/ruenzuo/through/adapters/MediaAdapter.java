@@ -53,7 +53,7 @@ public class MediaAdapter extends ArrayAdapter<Media> {
             holder.txtViewMediaSource.setText(media.getUserName() + " on " + media.getType().toString() + " (" + ago + ")");
             holder.txtViewMediaText.setText("");
         }
-        Picasso.with(getContext()).load(media.getURL()).fit().centerCrop().into(holder.imgViewPicture);
+        Picasso.with(getContext()).load(media.getURL()).placeholder(R.drawable.placeholder).fit().centerCrop().into(holder.imgViewPicture);
         return convertView;
     }
 
