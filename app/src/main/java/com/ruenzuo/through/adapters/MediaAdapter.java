@@ -49,9 +49,11 @@ public class MediaAdapter extends ArrayAdapter<Media> {
         if (media.getText() != null) {
             holder.txtViewMediaSource.setText(media.getUserName() + " on " + media.getType().toString() + " (" + ago + "):");
             holder.txtViewMediaText.setText(media.getText());
+            holder.txtViewMediaText.setVisibility(View.VISIBLE);
         } else {
             holder.txtViewMediaSource.setText(media.getUserName() + " on " + media.getType().toString() + " (" + ago + ")");
             holder.txtViewMediaText.setText("");
+            holder.txtViewMediaText.setVisibility(View.GONE);
         }
         Picasso.with(getContext()).load(media.getURL()).placeholder(R.drawable.placeholder).fit().centerCrop().into(holder.imgViewPicture);
         return convertView;
