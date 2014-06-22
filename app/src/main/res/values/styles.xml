@@ -36,6 +36,7 @@
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:progressBarStyleHorizontal">@style/THRProgressBarApp</item>
+        <item name="android:selectableItemBackground">@drawable/action_button_background</item>
     </style>
     <style name="THRTranslucentActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
         <item name="android:background">@drawable/action_bar_background</item>

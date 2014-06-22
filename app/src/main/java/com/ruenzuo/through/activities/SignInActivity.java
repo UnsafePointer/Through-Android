@@ -12,10 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.ruenzuo.through.R;
+import com.ruenzuo.through.application.ThroughApplication;
 import com.wrapp.floatlabelededittext.FloatLabeledEditText;
 
 import net.hockeyapp.android.CrashManager;
@@ -39,6 +41,7 @@ public class SignInActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((ThroughApplication) getApplication()).getTracker(ThroughApplication.TrackerName.APP_TRACKER);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(SignUpActivity.ACTION_SIGN_UP_COMPLETED);
         registerReceiver(receiver, intentFilter);
@@ -49,6 +52,18 @@ public class SignInActivity extends Activity {
         }
         edtTextUsername = (FloatLabeledEditText) findViewById(R.id.edtTextUsername);
         edtTextPassword = (FloatLabeledEditText) findViewById(R.id.edtTextPassword);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 
     @Override

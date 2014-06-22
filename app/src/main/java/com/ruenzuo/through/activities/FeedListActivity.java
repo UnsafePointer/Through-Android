@@ -16,6 +16,7 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
 import com.parse.FindCallback;
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
@@ -24,6 +25,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.ruenzuo.through.R;
 import com.ruenzuo.through.adapters.MediaAdapter;
+import com.ruenzuo.through.application.ThroughApplication;
 import com.ruenzuo.through.fragments.AboutDialogFragment;
 import com.ruenzuo.through.helpers.NavigationHelper;
 import com.ruenzuo.through.models.Media;
@@ -81,6 +83,7 @@ public class FeedListActivity extends ListActivity implements SwipeRefreshLayout
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((ThroughApplication) getApplication()).getTracker(ThroughApplication.TrackerName.APP_TRACKER);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ConnectListActivity.ACTION_CONNECT_SERVICE);
         intentFilter.addAction(ConnectListActivity.ACTION_DISCONNECT_SERVICE);
@@ -143,6 +146,18 @@ public class FeedListActivity extends ListActivity implements SwipeRefreshLayout
             }
 
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 
     @Override
@@ -235,7 +250,7 @@ public class FeedListActivity extends ListActivity implements SwipeRefreshLayout
         } else if (item.getItemId() == R.id.action_share) {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_TEXT, "Check Through in Google Play! https://play.google.com/store/apps/details?id=com.rovio.angrybirds");
+            intent.putExtra(Intent.EXTRA_TEXT, "Check Through in Google Play! https://play.google.com/store/apps/details?id=com.ruenzuo.through");
             startActivity(Intent.createChooser(intent, "Share this app"));
             return true;
         } else if (item.getItemId() == R.id.action_about) {
