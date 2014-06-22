@@ -10,7 +10,9 @@ import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
 import com.ruenzuo.through.R;
+import com.ruenzuo.through.application.ThroughApplication;
 
 import java.util.concurrent.Callable;
 
@@ -37,6 +39,7 @@ public class TwitterOAuthActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.twitter_oauth_activity_layout);
+        ((ThroughApplication) getApplication()).getTracker(ThroughApplication.TrackerName.APP_TRACKER);
         webView = (WebView) findViewById(R.id.wbViewOAuth);
         WebViewClient webViewClient = new WebViewClient() {
 
@@ -77,6 +80,18 @@ public class TwitterOAuthActivity extends Activity {
         };
         webView.setWebViewClient(webViewClient);
         connectTwitter();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 
     private void connectTwitter() {

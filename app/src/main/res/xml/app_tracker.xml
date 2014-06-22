@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="TypographyDashes">
+    <integer name="ga_sessionTimeout">300</integer>
+    <bool name="ga_autoActivityTracking">true</bool>
+    <screenName name="com.ruenzuo.through.activities.SignInActivity">SignInActivity</screenName>
+    <screenName name="com.ruenzuo.through.activities.SignUpActivity">SignUpActivity</screenName>
+    <screenName name="com.ruenzuo.through.activities.FeedListActivity">FeedListActivity</screenName>
+    <screenName name="com.ruenzuo.through.activities.ConnectListActivity">ConnectListActivity</screenName>
+    <screenName name="com.ruenzuo.through.activities.LicensesActivity">LicensesActivity</screenName>
+    <screenName name="com.ruenzuo.through.activities.MediaActivity">MediaActivity</screenName>
+    <screenName name="com.ruenzuo.through.activities.TwitterOAuthActivity">TwitterOAuthActivity</screenName>
+    <screenName name="com.ruenzuo.through.activities.SplashActivity">SplashActivity</screenName>
+    <string name="ga_trackingId">UA-51763927-1</string>
+</resources>
