@@ -14,7 +14,7 @@ public class ThroughApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Parse.initialize(this, "13M9oMhAklF3jK9XjjVZ8cHa4qOwQZqYFM6CiXLL", "o5A6XY0VXa7I1RggWh0kTKnZ31zHLzHLeTd2odJV");
+        Parse.initialize(this, "9ITnzSGyHOgg76x2arpk0vz4kcpPRVlYG8NgNNqY", "mIffCyXqAQ6R7SZ3GwoQNCqMpnrm0PvLy79BKPWL");
         ParseObject.registerSubclass(Media.class);
     }
 
